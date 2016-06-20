@@ -1,0 +1,110 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context="net.sgoliver.android.toolbar.Fragment1"
+    android:id="@+id/fragLayout1">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scrollView" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="Origen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <EditText
+                    android:id="@+id/etOrigen"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content"
+                    />
+
+                <TextView
+                    android:text="Destino"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/etDestino"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Motivo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/etMotivo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:hint="Recerca d'empreses, Inici de la FCT, Seguiment de la FCT, Fi de la FCT">
+                </EditText>
+
+                <TextView
+                    android:text="Kilometros: 100"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/maps"
+                    />
+
+                <TextView
+                    android:text="Fecha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <DatePicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="146dp"
+                    android:id="@+id/datePicker"
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:text="Hora de salida"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TimePicker
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:timePickerMode="spinner"
+                    android:id="@+id/timePicker1"/>
+                <TextView
+                    android:text="Hora de llegada"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TimePicker
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:timePickerMode="spinner"
+                    android:id="@+id/timePicker2"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="ALTA"
+                    android:id="@+id/bAlta"
+                    />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Fichar Batoi</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Opciones</string>
+    <string name="fragment1">Fragment 1</string>
+    <string name="fragment2">Fragment 2</string>
+    <string name="search">search</string>
+    <string name="action_buscar">Buscar</string>
+    <string name="action_nuevo">nuevo</string>
+    <string name="googlePlay">Google Play</string>
+    <string name="buscar">Buscar</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="settings">Opciones</string>
+    <string name="home">Home</string>
+    <string name="menu_search">Search</string>
+    <string name="iniciarSesion">INICIAR SESION</string>
+    <string name="historial">HISTORIAL</string>
+    <string name="alta">ALTA DIETA</string>
+    <string name="usuario">USUARIO</string>
+    <string name="add">add</string>
+    <string name="entrar">ENTRAR</string>
+    <string name="controlES">Control Entrada/Salida</string>
+
+</resources>
