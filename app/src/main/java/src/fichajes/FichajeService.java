@@ -49,7 +49,6 @@ public class FichajeService {
         this.fichajesProfe = fichajesProfeHoy;
     }
 
-
     public void anyadeOCierraFichaje(ConexionMySQL conexionMySQL) throws SQLException{
 
         int numFichajesHoy = fichajesProfe.size();
@@ -61,38 +60,40 @@ public class FichajeService {
 
             if (ultimoFichaje.getSalida() == null) {
 
+                Fichaje copiaUltimoFichaje = new Fichaje(ultimoFichaje.getId(), ultimoFichaje.getEntrada());
+                copiaUltimoFichaje.setSalida(ahora);
+                copiaUltimoFichaje.modificaEnBD(conexionMySQL);
+
                 ultimoFichaje.setSalida(ahora);
-                ultimoFichaje.modificaEnBD(conexionMySQL);
 
                 return;
             }
         }
 
-        int id = getSiguienteIdDisponible(conexionMySQL);
         Fichaje fichaje = new Fichaje(ahora);
+        fichaje.insertaEnBD(codigoProfe, conexionMySQL);
+        int id = getIdUltimoFichajeInsertado(conexionMySQL);
         fichaje.setId(id);
         this.fichajesProfe.add(fichaje);
-        fichaje.insertaEnBD(codigoProfe, conexionMySQL);
     }
 
-    // Hay que modificar este método para que recoja en lugar del maximo ID + 1, el próximo ID que
-    // va a proporcionar la base de datos según este campo AUTONUMERIC
-    public int getSiguienteIdDisponible(ConexionMySQL conexionMySQL) throws SQLException{
 
-        int proximoId = 0;
+    private int getIdUltimoFichajeInsertado(ConexionMySQL conexionMySQL) throws SQLException{
 
-        String sentenciaSQL = "SELECT last_insert_id() as proxId FROM faltes_profes";
+        int ultimoId = 0;
+
+        String sentenciaSQL = "SELECT MAX(last_insert_id()) as proxId FROM faltes_profes";
         ResultSet resultSet = conexionMySQL.ejecutaConsulta(sentenciaSQL);
 
         while(resultSet.next()) {
 
-            proximoId = resultSet.getInt("proxId");
+            ultimoId = resultSet.getInt("proxId");
             break;
         }
 
         resultSet.close();
 
-        return proximoId + 1;
+        return ultimoId;
     }
 
     private Time getHoraActualDelSistema(ConexionMySQL conexionMySQL) throws SQLException{

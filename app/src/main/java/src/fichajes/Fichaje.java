@@ -17,6 +17,11 @@ public class Fichaje {
     private final Time entrada;
     private Time salida;
 
+    public Fichaje(int id, Time entrada) {
+        this.id = id;
+        this.entrada = entrada;
+    }
+
     public Fichaje(Time entrada, Time salida) {
         this.entrada = entrada;
         this.salida = salida;
@@ -33,6 +38,10 @@ public class Fichaje {
 
     public int getId() {
         return id;
+    }
+
+    public Time getEntrada() {
+        return entrada;
     }
 
     public Time getSalida() {
