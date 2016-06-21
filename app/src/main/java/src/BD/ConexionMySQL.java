@@ -1,11 +1,13 @@
 package src.BD;
 
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 /**
  * Clase responsable de la conéxion, realización de consultas y transacciones y desconexión de la base de datos.
@@ -16,7 +18,7 @@ public class ConexionMySQL
     /*DATOS DE CONFIGURACIÓN DE CONEXIÓN CON LA BASE DE DATOS*/
     private static final String CONTROLLER = "com.mysql.jdbc.Driver";
     private static final String NOMBRE_BD = "intranet";
-    private static final String ENLACE_CONEXCION_BD = "jdbc:mysql://192.168.1.115/";
+    private static final String ENLACE_CONEXCION_BD = "jdbc:mysql://192.168.1.100/";
     private static final String USUARIO = "dam";
     private static final String PASSWORD = "1234";
 
@@ -56,7 +58,9 @@ public class ConexionMySQL
      */
     public void ejecutaTransaccion(String sentenciaSQL) throws SQLException
     {
-        this.statement.executeUpdate(sentenciaSQL);
+        if (this.statement.executeUpdate(sentenciaSQL) == 0) {
+            throw new SQLException("Error de transcacción sobre la base de datos: No hay filas afectadas");
+        }
     }
 
     /**
