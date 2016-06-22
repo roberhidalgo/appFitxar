@@ -1,11 +1,13 @@
 package src.fichajes;
 
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 
 import net.sgoliver.android.toolbar3.Fragment2;
 import net.sgoliver.android.toolbar3.R;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import src.BD.ConexionMySQL;
@@ -16,11 +18,14 @@ import src.dialogs.UtilesDialogos;
  */
 public class ProcesoNuevoFichaje extends AsyncTask<FichajeService, Void, Void> {
 
-    private FragmentManager fragmentManager;
     private FichajeService fichajeService;
 
-    public ProcesoNuevoFichaje(FragmentManager fragmentManager) {
+    private final FragmentManager fragmentManager;
+    private final Resources resources;
+
+    public ProcesoNuevoFichaje(FragmentManager fragmentManager, Resources resources) {
         this.fragmentManager = fragmentManager;
+        this.resources = resources;
     }
 
     @Override
@@ -28,12 +33,13 @@ public class ProcesoNuevoFichaje extends AsyncTask<FichajeService, Void, Void> {
 
         try {
             this.fichajeService = fichajeServices[0];
-            ConexionMySQL conexionMySQL = new ConexionMySQL();
+            ConexionMySQL conexionMySQL = new ConexionMySQL(resources);
             fichajeService.anyadeOCierraFichaje(conexionMySQL);
             conexionMySQL.close();
         }
-        catch (ClassNotFoundException | SQLException ex) {
+        catch (ClassNotFoundException | SQLException | IOException ex) {
 
+            ex.printStackTrace();
             UtilesDialogos.muestraDialogo(this.fragmentManager, "Error al conectar con la BD. Contacte con el administrador.");
         }
 

@@ -1,13 +1,21 @@
 package src.BD;
 
 
-import java.io.FileInputStream;
+import android.annotation.TargetApi;
+import android.content.res.Resources;
+import android.os.Build;
+
+import net.sgoliver.android.toolbar3.R;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+
 
 /**
  * Clase responsable de la conéxion, realización de consultas y transacciones y desconexión de la base de datos.
@@ -18,7 +26,7 @@ public class ConexionMySQL
     /*DATOS DE CONFIGURACIÓN DE CONEXIÓN CON LA BASE DE DATOS*/
     private static final String CONTROLLER = "com.mysql.jdbc.Driver";
     private static final String NOMBRE_BD = "intranet";
-    private static final String ENLACE_CONEXCION_BD = "jdbc:mysql://192.168.1.100/";
+    private static final String ENLACE_CONEXCION_BD = "jdbc:mysql://192.168.1.102/";
     private static final String USUARIO = "dam";
     private static final String PASSWORD = "1234";
 
@@ -30,13 +38,22 @@ public class ConexionMySQL
      * @throws SQLException En caso de ocurrir algún error al conectar con la base de datos
      * @throws ClassNotFoundException En caso de ocurrir algún error al crear el interfaz de instrucciones
      */
-    public ConexionMySQL() throws SQLException, ClassNotFoundException
+    public ConexionMySQL(Resources resources) throws SQLException, ClassNotFoundException, IOException
     {
+        InputStream inputStream = resources.openRawResource(R.raw.conexionmysql);
+        Properties propiedades = new Properties();
+        propiedades.load(inputStream);
 
-        Class.forName(CONTROLLER);
-        this.connection = DriverManager.getConnection(ENLACE_CONEXCION_BD + NOMBRE_BD, USUARIO, PASSWORD);
+        String controllerBD = propiedades.getProperty("controller");
+        String nombreBD = propiedades.getProperty("nombre");
+        String urlBD = propiedades.getProperty("direccion");
+        String usuarioBD = propiedades.getProperty("usuario");
+        String passwordBD = propiedades.getProperty("contrasenya");
+
+        Class.forName(controllerBD);
+        this.connection = DriverManager.getConnection(urlBD + nombreBD, usuarioBD, passwordBD);
         this.statement = this.connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        System.out.println("Conectado correctamente a la base de datos " + NOMBRE_BD);
+        System.out.println("Conectado correctamente a la base de datos " + nombreBD);
     }
 
     /**

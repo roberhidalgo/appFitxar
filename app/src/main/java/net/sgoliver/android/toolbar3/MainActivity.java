@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements Fragment1.OnFragm
         setContentView(R.layout.activity_main);
         int codigoProfe = getIntent().getExtras().getInt("codigoProfe");
         this.fichajeService = new FichajeService(codigoProfe);
-        new ProcesoLecturaFichajes(getSupportFragmentManager()).execute(introduceFichajeServicesEnArray());
+        new ProcesoLecturaFichajes(getSupportFragmentManager(), getResources()).execute(introduceFichajeServicesEnArray());
 
         //Appbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.appbar);
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements Fragment1.OnFragm
 
     public void onFragmentInteraction() {
 
-        new ProcesoNuevoFichaje(getSupportFragmentManager()).execute(introduceFichajeServicesEnArray());
+        new ProcesoNuevoFichaje(getSupportFragmentManager(), getResources()).execute(introduceFichajeServicesEnArray());
     }
 
 }

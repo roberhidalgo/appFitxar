@@ -1,9 +1,15 @@
 package src.login;
 
+import android.content.res.Resources;
+
+import com.mysql.jdbc.Util;
+
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import src.BD.ConexionMySQL;
+import src.dialogs.UtilesDialogos;
 import src.util.UtilesFormato;
 
 /**
@@ -13,53 +19,54 @@ public class LoginService {
 
     private final String usuario;
     private final String password;
+    private final Resources resources;
 
-    public LoginService(String usuario, String password) {
+    public LoginService(String usuario, String password, Resources resources) {
 
         this.usuario = usuario;
         this.password = password;
+        this.resources = resources;
     }
 
-    public EnumResultadoLogin verificaDatosLogin() throws ClassNotFoundException,SQLException{
+    public EnumResultadoLogin verificaDatosLogin() throws ClassNotFoundException,SQLException, IOException{
 
-        EnumResultadoLogin resultadoLogin;
 
-        if (usuario != null && !usuario.isEmpty()) {
+            EnumResultadoLogin resultadoLogin;
 
-            if (UtilesFormato.esUnNumero(usuario)) {
-                ConexionMySQL conexionMySQL;
+            if (usuario != null && !usuario.isEmpty()) {
 
-                conexionMySQL = new ConexionMySQL();
+                if (UtilesFormato.esUnNumero(usuario)) {
+                    ConexionMySQL conexionMySQL;
 
-                String sentenciaSQL = "SELECT * FROM profesores WHERE codigo=" + usuario;
-                ResultSet resultSet = conexionMySQL.ejecutaConsulta(sentenciaSQL);
+                    conexionMySQL = new ConexionMySQL(resources);
 
-                resultadoLogin = EnumResultadoLogin.USUARIO_INCORRECTO;
+                    String sentenciaSQL = "SELECT * FROM profesores WHERE codigo=" + usuario;
+                    ResultSet resultSet = conexionMySQL.ejecutaConsulta(sentenciaSQL);
 
-                while (resultSet.next()) {
+                    resultadoLogin = EnumResultadoLogin.USUARIO_INCORRECTO;
 
-                    String passwordBD = resultSet.getString("password");
+                    while (resultSet.next()) {
 
-                    if (password != null && password.equals(passwordBD)) {
+                        String passwordBD = resultSet.getString("password");
 
-                        resultadoLogin = EnumResultadoLogin.CORRECTO;
+                        if (password != null && password.equals(passwordBD)) {
+
+                            resultadoLogin = EnumResultadoLogin.CORRECTO;
+                            break;
+                        }
+
+                        resultadoLogin = EnumResultadoLogin.PASSWORD_INCORRECTO;
                         break;
                     }
 
-                    resultadoLogin = EnumResultadoLogin.PASSWORD_INCORRECTO;
-                    break;
+                    resultSet.close();
+                    conexionMySQL.close();
+                } else {
+                    resultadoLogin = EnumResultadoLogin.USUARIO_INCORRECTO;
                 }
-
-                resultSet.close();
-                conexionMySQL.close();
+            } else {
+                resultadoLogin = EnumResultadoLogin.USUARIO_VACIO;
             }
-            else {
-                resultadoLogin = EnumResultadoLogin.USUARIO_INCORRECTO;
-            }
-        }
-        else {
-            resultadoLogin = EnumResultadoLogin.USUARIO_VACIO;
-        }
 
         return resultadoLogin;
 

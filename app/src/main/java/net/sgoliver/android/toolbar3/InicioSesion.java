@@ -7,12 +7,17 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import src.login.EnumResultadoLogin;
 import src.login.LoginService;
@@ -30,12 +35,11 @@ public class InicioSesion extends AppCompatActivity {
         protected Void doInBackground(String... credenciales) {
 
             String mensajeDialogo  = null;
-            String codigoProfe = credenciales[0];
-            String password = credenciales[1];
-            this.loginService = new LoginService(codigoProfe, password);
 
             try {
-
+                String codigoProfe = credenciales[0];
+                String password = credenciales[1];
+                this.loginService = new LoginService(codigoProfe, password, getResources());
                 EnumResultadoLogin enumResultadoLogin = this.loginService.verificaDatosLogin();
 
                 switch (enumResultadoLogin) {
@@ -65,10 +69,12 @@ public class InicioSesion extends AppCompatActivity {
             }
             catch (SQLException ex) {
 
+                ex.printStackTrace();
                 mensajeDialogo = "Imposible conectar con la BD. Contacte con el administrador.";
             }
-            catch (ClassNotFoundException ex) {
+            catch (ClassNotFoundException | IOException ex) {
 
+                ex.printStackTrace();
                 mensajeDialogo = "Error en la configuración de la BD. Contacte con el administrador";
             }
 
